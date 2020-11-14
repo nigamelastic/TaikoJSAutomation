@@ -1,0 +1,27 @@
+const { openBrowser, goto, click, closeBrowser, waitFor} = require('taiko');
+
+const fs = require('fs');
+const data = fs.readFileSync('links.txt', 'UTF-8');
+console.log(data)
+
+    // split the contents by new line
+const lines = data.split(/\r?\n/);
+
+(async () => {
+    try {
+        await openBrowser();
+
+        for (const line in lines) { 
+            console.log(lines[line])
+            await goto(lines[line]);
+            await click('Download');
+            await waitFor(100000);
+        }
+
+
+    } catch (error) {
+        console.error(error);
+    } finally {
+        await closeBrowser();
+    }
+})();
